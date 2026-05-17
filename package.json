@@ -13,6 +13,7 @@
     "run-valgrind": "valgrind qode main/dist/main.js",
     "run-strace": "strace -f -o strace.log qode main/dist/main.js",
     "run-theme-test": "qode main/build/ThemeTestUtility.js",
+    "run-compute256palette-test": "qode main/build/Compute256PaletteTestUtility.js",
     "build": "wsrun --concurrency 5 --exclude-missing --stages build",
     "clean": "wsrun --concurrency 1 --exclude-missing --stages clean",
     "download-launcher-executable": "node build_scripts/download_launcher_executables.mjs v19",

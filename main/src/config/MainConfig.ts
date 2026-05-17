@@ -242,6 +242,7 @@ function sanitizeGeneralConfig(configDatabase: ConfigDatabase, themeManager: The
   if ( ! isThemeType(themeManager.getTheme(generalConfig.themeTerminal), "terminal")) {
     generalConfig.themeTerminal = FALLBACK_TERMINAL_THEME;
   }
+  sanitizeField(generalConfig, "match256PaletteToTheme", true);
 
   configDatabase.setGeneralConfig(generalConfig);
 }

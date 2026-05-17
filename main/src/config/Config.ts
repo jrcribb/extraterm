@@ -17,7 +17,10 @@ export type WindowBackgroundMode = "opaque" | "blur";
 export interface GeneralConfig {
   blinkingCursor?: boolean;
   cursorStyle?: ConfigCursorStyle;
+
   themeTerminal?: string;
+  match256PaletteToTheme?: boolean;
+
   terminalFont?: string;
   terminalFontSize?: number;  // px
   terminalDisplayLigatures?: boolean;

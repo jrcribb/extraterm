@@ -10,6 +10,7 @@ import {Logger, log, getLogger} from "extraterm-logging";
 import { ThemeInfo } from "./Theme";
 import { ExtensionManager } from "../extension/ExtensionManager";
 import { TerminalTheme } from "@extraterm/extraterm-extension-api";
+import { Compute256Palette } from "./Compute256Palette";
 
 
 const DEBUG_SCAN = false;
@@ -21,7 +22,7 @@ export interface Color {
 
 export interface ThemeTypePaths {
   terminal: string[];
-};
+}
 
 const DEFAULT_TERMINAL_THEME: TerminalTheme = {
   foregroundColor: "#b2b2b2",
@@ -291,7 +292,6 @@ const DEFAULT_TERMINAL_THEME: TerminalTheme = {
   "253": "#dadada",
   "254": "#e4e4e4",
   "255": "#eeeeee",
-
 };
 
 export class ThemeManager {
@@ -397,14 +397,35 @@ export class ThemeManager {
     return null;
   }
 
-  getTerminalTheme(id: string): TerminalTheme {
+  getTerminalTheme(id: string, match256PaletteToTheme: boolean): TerminalTheme {
     const terminalThemeInfo = this.#themes.get(id);
     if (terminalThemeInfo == null) {
       return null;
     }
+
     const contents = this.#getTerminalThemeContentsFromInfo(terminalThemeInfo);
-    const completeTheme = this.#mergeTerminalThemeDefaults(contents, DEFAULT_TERMINAL_THEME);
-    return completeTheme;
+    if (match256PaletteToTheme) {
+      const base16: string[] = [];
+      for (let i = 0; i < 16; i++) {
+        base16.push(contents[i]);
+      }
+      const computed256 = Compute256Palette(base16, contents.backgroundColor, contents.foregroundColor, true);
+
+      const defaultTheme: TerminalTheme = {
+        foregroundColor: "#b2b2b2",
+        backgroundColor: "#000000",
+        cursorForegroundColor: "#000000",
+        cursorBackgroundColor: "#ffb300",
+        selectionBackgroundColor: "#005CCC",
+      };
+      for (let i = 0; i < 256; i++) {
+        defaultTheme[i] = computed256[i];
+      }
+
+      return this.#mergeTerminalThemeDefaults(contents, defaultTheme);
+    } else {
+      return this.#mergeTerminalThemeDefaults(contents, DEFAULT_TERMINAL_THEME);
+    }
   }
 
   #mergeTerminalThemeDefaults(terminalTheme: TerminalTheme, defaultTerminalTheme: TerminalTheme): TerminalTheme {

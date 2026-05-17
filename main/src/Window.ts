@@ -895,7 +895,7 @@ export class Window implements Disposable {
   async #createTerminalVisualConfig(): Promise<TerminalVisualConfig> {
     const config = this.#configDatabase.getGeneralConfig();
     const fontInfo = this.#getFontInfo(config.terminalFont);
-    const terminalTheme = this.#themeManager.getTerminalTheme(config.themeTerminal);
+    const terminalTheme = this.#themeManager.getTerminalTheme(config.themeTerminal, config.match256PaletteToTheme);
 
     let ligatureMarker: LigatureMarker = null;
     if (config.terminalDisplayLigatures && fontInfo.path != null) {
@@ -977,6 +977,7 @@ export class Window implements Disposable {
         oldConfig.cursorStyle === newConfig.cursorStyle &&
         oldConfig.blinkingCursor === newConfig.blinkingCursor &&
         oldConfig.themeTerminal === newConfig.themeTerminal &&
+        oldConfig.match256PaletteToTheme === newConfig.match256PaletteToTheme &&
         oldConfig.terminalDisplayLigatures === newConfig.terminalDisplayLigatures &&
         oldConfig.terminalMarginStyle === newConfig.terminalMarginStyle)) {
       await this.#updateTerminalVisualConfig();

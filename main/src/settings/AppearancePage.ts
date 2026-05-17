@@ -229,6 +229,15 @@ export class AppearancePage implements SettingsPageType {
                   wordWrap: true,
                 }),
 
+                "",
+                CheckBox({
+                  text: "Match 256 pallette to theme",
+                  checkState: generalConfig.match256PaletteToTheme,
+                  onStateChanged: (state: number) => {
+                    update((c) => c.match256PaletteToTheme = Boolean(state));
+                  },
+                }),
+
                 "Cursor Style:",
                 makeGroupLayout(
                   PushButton({

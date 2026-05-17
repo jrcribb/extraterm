@@ -206,6 +206,7 @@ export class TerminalBlock implements Block {
 
     this.#fontSlices = terminalVisualConfig.extraFonts;
     this.#updateWidgetSize();
+    this.#widget.update();
   }
 
   getScreenWidth(): number {

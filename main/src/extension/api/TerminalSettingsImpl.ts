@@ -19,6 +19,7 @@ export class TerminalSettingsImpl implements ExtensionApi.TerminalSettings {
 
   get currentTheme(): ExtensionApi.TerminalTheme {
     const config = this.#configDatabase.getGeneralConfig();
-    return this.#themeManager.getTerminalTheme(config.themeTerminal);
+
+    return this.#themeManager.getTerminalTheme(config.themeTerminal, config.match256PaletteToTheme);
   }
 }
